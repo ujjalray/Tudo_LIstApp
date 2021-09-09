@@ -1,25 +1,74 @@
-import logo from './logo.svg';
+import React,{ useState } from 'react'
 import './App.css';
+import Todolist from './Todolist';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+ const App=()=>
+ {
+     const [list, setslist] = useState("");
+     const [item, setitem] = useState([]);
+     
 
-export default App;
+     var onlisst=(e)=>
+     {
+           setslist(e.target.value);
+     }
+
+     const onitem=()=>
+     {
+         
+           setitem((old)=>
+           {
+                return [...old,list];
+                
+           });
+           setslist("");
+
+     }
+
+     const delate=(id)=>
+     { 
+          setitem((old)=>
+           {
+                return old.filter((arr,i)=>
+                {
+                     return i!==id;
+                })
+                
+           });
+      
+     }
+    
+
+    
+
+    return(
+
+      <div className="main_div">
+        
+            <div className="center_div">
+            
+                <h1 className="center_div_text">ToDo list</h1>
+                <input type="text" placeholder="Add a item" onChange={onlisst} value={list} className="center_div_text_input"/>
+                <button className="center_div_button" onClick={onitem}>+</button>
+            
+                 
+                <ol className="center_div_list">
+                {item.map((itemv,i)=>{
+                 
+                   return  <Todolist 
+                   key={i} 
+                   id={i}
+                   
+                   name={itemv} itemDelate={delate} />;
+                 
+                 })}
+
+                 </ol>
+            
+            </div>        
+         
+        </div>
+
+    )
+ }
+ export default App;
